@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.microservices.model.RefreshToken;
+import com.microservices.model.UserRole;
 import com.microservices.model.Users;
 import com.microservices.repository.UserRepository;
 import com.microservices.service.AuthService;
@@ -45,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
 		user.setPhone(registerRequest.getPhone());
 		user.setDateOfBirth(registerRequest.getDateOfBirth());
 		user.setUsername(registerRequest.getUsername());
-		user.setRole(registerRequest.getRole());
+		user.setRole(UserRole.USER);
 
 		Users registeredUser = userRepository.save(user);
 
@@ -90,5 +91,7 @@ public class AuthServiceImpl implements AuthService {
 			return user;
 		}
 		return null;
+
 	}
+
 }

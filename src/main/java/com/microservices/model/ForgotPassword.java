@@ -2,10 +2,14 @@ package com.microservices.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,14 +21,13 @@ public class ForgotPassword {
 	private Integer id;
 	private Integer otp;
 	private Date expiration;
+
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	@JsonBackReference
 	private Users user;
 
-	public ForgotPassword(ForgotPassword forgotPassword) {
-		super();
-		this.id = forgotPassword.id;
-		this.otp = forgotPassword.otp;
-		this.expiration = forgotPassword.expiration;
-		this.user = forgotPassword.user;
+	public ForgotPassword() {
 	}
 
 	public ForgotPassword(Integer id, Integer otp, Date expiration, Users user) {
@@ -33,6 +36,9 @@ public class ForgotPassword {
 		this.otp = otp;
 		this.expiration = expiration;
 		this.user = user;
+	}
+
+	public ForgotPassword(ForgotPassword forgotPassword) {
 	}
 
 	public ForgotPassword setId(Integer id) {

@@ -7,10 +7,12 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.microservices.service.BlacklistedTokenService;
 import com.microservices.service.JwtService;
 
 import io.jsonwebtoken.Claims;
@@ -23,6 +25,9 @@ public class JwtServiceImpl implements JwtService {
 
 	@Value("${jwt.secrete.key}")
 	private String secrete;
+
+	@Autowired
+	private BlacklistedTokenService blacklistedTokenService;
 
 //	Extract Data from Claims
 	@Override
@@ -52,6 +57,10 @@ public class JwtServiceImpl implements JwtService {
 
 	@Override
 	public boolean isValidToken(String token, UserDetails userDetails) {
+		if (blacklistedTokenService.isTokenBlacklisted(token)) {
+			return false;
+		}
+		
 		String username = extractUsername(token);
 		return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
 	}

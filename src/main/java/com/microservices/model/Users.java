@@ -43,6 +43,10 @@ public class Users implements UserDetails {
 	@JsonManagedReference
 	private RefreshToken refreshToken;
 
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private ForgotPassword forgotPassword;
+
 	public Users() {
 		super();
 	}

@@ -45,7 +45,7 @@ public class AuthFilterServiceImpl extends OncePerRequestFilter {
 
 			if (jwtService.isValidToken(token, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-						userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
+						userDetails, null, userDetails.getAuthorities());
 
 				usernamePasswordAuthenticationToken
 						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
